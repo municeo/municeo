@@ -1,6 +1,9 @@
-# Value Objects
+---
+paths:
+  - "src/Domain/*/ValueObject/*.php"
+---
 
-Applies to: `src/Domain/*/ValueObject/*.php`
+# Value Objects
 
 - Always `readonly class` — no setters, no mutable state
 - Constructor validation: throw domain exception on invalid input

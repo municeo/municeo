@@ -1,6 +1,9 @@
-# Application Layer
+---
+paths:
+  - "src/Application/**/*.php"
+---
 
-Applies to: `src/Application/**/*.php`
+# Application Layer
 
 - One Command class per use case — immutable DTO with `readonly` properties
 - One Handler per Command — single `__invoke(CommandName $command)` method

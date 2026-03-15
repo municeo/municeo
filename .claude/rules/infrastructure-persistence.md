@@ -1,6 +1,10 @@
-# Infrastructure Persistence
+---
+paths:
+  - "src/Infrastructure/Persistence/**/*.php"
+  - "migrations/**/*.php"
+---
 
-Applies to: `src/Infrastructure/Persistence/**/*.php`
+# Infrastructure Persistence
 
 - Doctrine repositories implement domain repository interfaces
 - PostGIS: use `ST_DWithin` with `::geography` cast for distance in meters

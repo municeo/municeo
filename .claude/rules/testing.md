@@ -1,6 +1,9 @@
-# Testing
+---
+paths:
+  - "tests/**/*.php"
+---
 
-Applies to: `tests/**/*.php`
+# Testing
 
 - Mirror `src/` structure: `tests/Domain/`, `tests/Application/`, `tests/Infrastructure/`
 - Domain tests: pure unit tests, no mocks, no database

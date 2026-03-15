@@ -1,6 +1,12 @@
-# Symfony Configuration
+---
+paths:
+  - "config/**/*.yaml"
+  - "composer.json"
+  - "Dockerfile"
+  - "Caddyfile"
+---
 
-Applies to: `config/**/*.yaml`, `composer.json`
+# Symfony Configuration
 
 - All business thresholds in `config/services.yaml` under `parameters:` with `municeo.` prefix
 - FrankenPHP: worker mode, Caddyfile config, `dunglas/frankenphp` Docker image

@@ -1,7 +1,5 @@
 # Security
 
-Applies to: all code
-
 - `declare(strict_types=1);` in every PHP file
 - Email: AES-256-GCM encrypted at rest, never logged in clear, decrypted only for sending
 - Password: argon2id via Symfony PasswordHasher

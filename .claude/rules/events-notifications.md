@@ -1,6 +1,12 @@
-# Events & Notifications
+---
+paths:
+  - "src/Domain/*/Event/*.php"
+  - "src/Infrastructure/Notification/**/*.php"
+  - "src/Infrastructure/Mercure/**/*.php"
+  - "src/Infrastructure/Messenger/**/*.php"
+---
 
-Applies to: `src/Domain/*/Event/*.php`, `src/Infrastructure/Notification/**/*.php`, `src/Infrastructure/Mercure/**/*.php`
+# Events & Notifications
 
 - Domain events are simple readonly DTOs (reportId, userId, timestamp)
 - Events dispatched via Symfony EventDispatcher (wired in Infrastructure)

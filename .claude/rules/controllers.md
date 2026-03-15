@@ -1,6 +1,10 @@
-# Controllers
+---
+paths:
+  - "src/Infrastructure/Http/Controller/**/*.php"
+  - "templates/**/*.twig"
+---
 
-Applies to: `src/Infrastructure/Http/Controller/**/*.php`
+# Controllers
 
 - ADR pattern: Action-Domain-Responder (one action per controller method)
 - Controllers are thin: validate input → dispatch command → return response

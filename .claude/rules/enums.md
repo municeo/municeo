@@ -1,6 +1,9 @@
-# Enums
+---
+paths:
+  - "src/Domain/*/ValueObject/*.php"
+---
 
-Applies to: `src/Domain/*/ValueObject/*.php` (enum files)
+# Enums
 
 - Use PHP 8.1+ native backed enums (`string` or `int`)
 - `ReportStatus: string` — pending, validated, resolved, rejected, archived

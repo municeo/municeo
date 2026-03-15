@@ -1,6 +1,11 @@
-# Wilson Score & Trust System
+---
+paths:
+  - "src/Domain/Report/Service/WilsonScoreCalculator.php"
+  - "src/Domain/User/ValueObject/TrustScore.php"
+  - "src/Application/Report/Handler/*VoteHandler*.php"
+---
 
-Applies to: `src/Domain/Report/Service/WilsonScoreCalculator.php`, `src/Domain/User/ValueObject/TrustScore.php`
+# Wilson Score & Trust System
 
 Wilson Score formula (95% confidence, z=1.96):
 ```

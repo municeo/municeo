@@ -1,6 +1,9 @@
-# Domain Purity
+---
+paths:
+  - "src/Domain/**/*.php"
+---
 
-Applies to: `src/Domain/**/*.php`
+# Domain Purity
 
 - No Symfony, Doctrine, or any framework import
 - No `use Doctrine\...` or `use Symfony\...`
