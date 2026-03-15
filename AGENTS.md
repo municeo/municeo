@@ -12,7 +12,9 @@ Dependency: Domain ← Application ← Infrastructure. Never the reverse.
 
 ## Language — English everywhere
 
-IMPORTANT: all code, comments, commit messages, documentation, variable names, class names, error messages, and PR descriptions must be written in English. The only exceptions are user-facing strings in Twig templates (French UI) and domain enum values explicitly defined in French in the specs (`CitizenLevel` values, route paths like `/signalement`).
+IMPORTANT: all code, comments, commit messages, documentation, variable names, class names, and PR descriptions must be written in English. No exception.
+
+All user-facing strings (UI labels, error messages, emails) go through Symfony Translator — never hardcoded in templates or controllers. Translation keys in English, translation files provide localized values. Routes are localized via Symfony's `{_locale}` prefix. The app is multi-tenant and locale-aware.
 
 ## Non-obvious rules
 
