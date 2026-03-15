@@ -10,13 +10,16 @@ Civic participation platform. Specs: @docs/specifications.md | Tasks: @TASKS.md
 
 Dependency: Domain ← Application ← Infrastructure. Never the reverse.
 
+## Language — English everywhere
+
+IMPORTANT: all code, comments, commit messages, documentation, variable names, class names, error messages, and PR descriptions must be written in English. The only exceptions are user-facing strings in Twig templates (French UI) and domain enum values explicitly defined in French in the specs (`CitizenLevel` values, route paths like `/signalement`).
+
 ## Non-obvious rules
 
 - UUID v7 for all entity PKs — never auto-increment
 - WilsonScore & CitizenLevel: computed at runtime, never persisted
 - Email: AES-256-GCM encrypted at rest, decrypted only at send time, never logged
 - All business thresholds from `config/services.yaml` (`municeo.*` parameters), injected via constructor
-- Code in English, domain terms in French where specified in specs (CitizenLevel values, route paths)
 - `CreateReportHandler` verification order: blocked → rate limit → cooldown → duplicate → create
 
 ## Commands
