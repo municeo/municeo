@@ -1,13 +1,7 @@
 # Security
 
-- `declare(strict_types=1);` in every PHP file
-- Email: AES-256-GCM encrypted at rest, never logged in clear, decrypted only for sending
+- Email: AES-256-GCM at rest, decrypted only for sending, never logged
 - Password: argon2id via Symfony PasswordHasher
-- Three firewalls: `admin` (^/admin), `agent` (^/agent), `main` (^/)
-- CSRF tokens on all mutating forms
-- Rate limiting: configurable daily limit + cooldown between reports
-- No user enumeration: generic error on duplicate email registration
-- Photo validation: MIME type whitelist (image/jpeg, image/png, image/webp), max size
-- No SQL injection: always use Doctrine DQL/QueryBuilder with parameters
-- Input validation: Symfony Validator constraints on all DTOs
-- Soft delete: `deleted_at` field, never hard delete users (referential integrity)
+- No user enumeration: generic error on duplicate email at registration
+- Photo validation: MIME whitelist (image/jpeg, image/png, image/webp), max size
+- Soft delete only: `deleted_at`, never hard delete users

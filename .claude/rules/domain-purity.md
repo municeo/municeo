@@ -3,11 +3,9 @@ paths:
   - "src/Domain/**/*.php"
 ---
 
-# Domain Purity
+# Domain Layer
 
-- No Symfony, Doctrine, or any framework import
-- No `use Doctrine\...` or `use Symfony\...`
+- ZERO framework imports — no `use Doctrine\...`, no `use Symfony\...`
 - Only pure PHP: enums, readonly classes, interfaces, exceptions
-- Repository interfaces defined here, implementations in Infrastructure
-- Domain services depend only on domain interfaces
-- All classes: `declare(strict_types=1);`
+- Repository interfaces here, implementations in Infrastructure
+- No Doctrine mapping attributes — mapping lives in Infrastructure only

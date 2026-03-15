@@ -5,11 +5,10 @@ paths:
 
 # Value Objects
 
-- Always `readonly class` — no setters, no mutable state
-- Constructor validation: throw domain exception on invalid input
-- Implement `equals()` method for comparison
-- Use constructor promotion
-- `WilsonScore` and `CitizenLevel` are computed, never persisted
-- `TrustScore` has a `getLevel(): CitizenLevel` method based on thresholds
-- `EncryptedEmail` holds ciphertext only — decryption is Infrastructure concern
-- `Coordinates` validates latitude (-90..90) and longitude (-180..180)
+- `readonly class` with constructor promotion — no setters
+- Validate in constructor, throw domain exception on invalid input
+- `equals(self $other): bool` for comparison
+- `WilsonScore` and `CitizenLevel`: computed at runtime, never persisted
+- `TrustScore::getLevel(): CitizenLevel` derived from thresholds in specs
+- `EncryptedEmail`: holds ciphertext only — decryption is Infrastructure
+- `Coordinates`: validate lat (-90..90) and lng (-180..180)

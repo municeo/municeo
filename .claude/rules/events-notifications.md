@@ -8,10 +8,9 @@ paths:
 
 # Events & Notifications
 
-- Domain events are simple readonly DTOs (reportId, userId, timestamp)
-- Events dispatched via Symfony EventDispatcher (wired in Infrastructure)
+- Domain events: readonly DTOs (reportId, userId, timestamp)
 - Mercure topics: `/users/{userId}/notifications`, `/agents/alerts`
-- Email sent via Messenger with delay: `+5 minutes` for resolution and agent alerts
-- Email decrypted only at send time — never logged in clear
-- One alert per report for Wilson threshold — track `alert_sent` flag
-- Blocking emails: 1st = informational, 2nd = final warning, 3rd = deletion notice
+- Emails via Messenger with +5min delay (resolution, agent alerts)
+- Email decrypted only at send time, never logged
+- One Wilson alert per report — track `alert_sent` flag
+- Block emails: 1st informational, 2nd final warning, 3rd deletion notice
