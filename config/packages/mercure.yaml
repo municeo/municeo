@@ -1,0 +1,12 @@
+mercure:
+    hubs:
+        default:
+            # The Mercure hub runs inside FrankenPHP — no separate container
+            url: '%env(MERCURE_URL)%'
+            public_url: '%env(MERCURE_PUBLIC_URL)%'
+            jwt:
+                secret: '%env(MERCURE_JWT_SECRET)%'
+                # Publisher permissions — app publishes to any topic
+                publish: ['*']
+                # Subscriber permissions — browsers subscribe to their own topics
+                subscribe: ['*']

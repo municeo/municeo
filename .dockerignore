@@ -1,0 +1,34 @@
+.git/
+.github/
+.idea/
+.vscode/
+
+vendor/
+var/
+public/uploads/
+public/assets/
+
+node_modules/
+
+*.sw[po]
+.DS_Store
+Thumbs.db
+
+# Tool caches
+.php-cs-fixer.cache
+.phpunit.result.cache
+.phpunit.cache/
+
+# Local env overrides
+.env.local
+.env.*.local
+
+# Documentation (not needed in image)
+docs/
+PLAN.md
+TASKS.md
+AGENTS.md
+README.md
+CONTRIBUTING.md
+SECURITY.md
+CODE_OF_CONDUCT.md

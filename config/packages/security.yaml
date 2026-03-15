@@ -1,0 +1,75 @@
+security:
+    # argon2id is the recommended hasher for Symfony 7+
+    password_hashers:
+        App\Domain\User\Entity\User:
+            algorithm: argon2id
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Domain\User\Entity\User
+                property: username
+
+    firewalls:
+        # Profiler / assets — no security
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        # ── Admin backoffice ──────────────────────────────────────────────────
+        admin:
+            pattern: ^/admin
+            provider: app_user_provider
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                default_target_path: /admin
+            logout:
+                path: admin_logout
+                target: /admin/login
+
+        # ── Agent backoffice ──────────────────────────────────────────────────
+        agent:
+            pattern: ^/agent
+            provider: app_user_provider
+            form_login:
+                login_path: agent_login
+                check_path: agent_login
+                default_target_path: /agent
+            logout:
+                path: agent_logout
+                target: /agent/login
+
+        # ── Citizen frontend (main) ───────────────────────────────────────────
+        main:
+            pattern: ^/
+            provider: app_user_provider
+            form_login:
+                login_path: app_login
+                check_path: app_login
+                default_target_path: /carte
+                enable_csrf: true
+            logout:
+                path: app_logout
+                target: /login
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800 # 7 days
+
+    access_control:
+        - { path: ^/admin,    roles: ROLE_ADMIN }
+        - { path: ^/agent,    roles: ROLE_AGENT }
+        # Public routes
+        - { path: ^/[a-z]{2}/register, roles: PUBLIC_ACCESS }
+        - { path: ^/[a-z]{2}/login,    roles: PUBLIC_ACCESS }
+        - { path: ^/[a-z]{2}/carte,    roles: PUBLIC_ACCESS }
+        # Everything else requires login
+        - { path: ^/,         roles: ROLE_CITIZEN }
+
+when@test:
+    security:
+        password_hashers:
+            # Speed up tests — hashing cost 4 is fine for tests
+            App\Domain\User\Entity\User:
+                algorithm: auto
+                cost: 4

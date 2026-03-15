@@ -1,0 +1,50 @@
+services:
+  # ─── Application (FrankenPHP + Mercure built-in) ─────────────────────────
+  app:
+    build:
+      context: .
+      target: dev
+    restart: unless-stopped
+    ports:
+      - "80:80"       # HTTP
+      - "443:443"     # HTTPS
+      - "443:443/udp" # HTTP/3
+      - "2019:2019"   # Caddy admin API
+    volumes:
+      - .:/app
+      - mercure_data:/data
+    environment:
+      SERVER_NAME: "${SERVER_NAME:-localhost}"
+      APP_ENV: "${APP_ENV:-dev}"
+      APP_SECRET: "${APP_SECRET}"
+      DATABASE_URL: "${DATABASE_URL}"
+      MESSENGER_TRANSPORT_DSN: "${MESSENGER_TRANSPORT_DSN}"
+      MAILER_DSN: "${MAILER_DSN}"
+      MERCURE_URL: "${MERCURE_URL}"
+      MERCURE_PUBLIC_URL: "${MERCURE_PUBLIC_URL}"
+      MERCURE_JWT_SECRET: "${MERCURE_JWT_SECRET}"
+      MERCURE_TRANSPORT_URL: "${MERCURE_TRANSPORT_URL:-bolt:///data/mercure.db}"
+      ENCRYPTION_KEY: "${ENCRYPTION_KEY}"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  # ─── PostgreSQL 18 + PostGIS 3.5 ─────────────────────────────────────────
+  database:
+    image: postgis/postgis:18-3.5
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: municeo
+      POSTGRES_USER: municeo
+      POSTGRES_PASSWORD: municeo
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U municeo -d municeo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  db_data:
+  mercure_data:

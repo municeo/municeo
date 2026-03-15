@@ -1,0 +1,16 @@
+# Dev-only overrides — automatically loaded by docker compose in dev
+services:
+  app:
+    environment:
+      XDEBUG_MODE: "${XDEBUG_MODE:-off}"
+      XDEBUG_CONFIG: "client_host=host.docker.internal"
+      # Mailer points at Mailpit SMTP
+      MAILER_DSN: "smtp://mailpit:1025"
+
+  # ─── Mailpit — catches all outgoing emails in dev ──────────────────────────
+  mailpit:
+    image: axllent/mailpit:latest
+    restart: unless-stopped
+    ports:
+      - "8025:8025"  # Web UI
+      - "1025:1025"  # SMTP

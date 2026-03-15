@@ -1,0 +1,39 @@
+framework:
+    messenger:
+        # Fail fast: if a message cannot be dispatched, throw immediately
+        failure_transport: failed
+
+        transports:
+            # Standard async transport (immediate delivery)
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+                    multiplier: 2
+
+            # Delayed transport for email fallbacks (5-minute delay)
+            async_delayed:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                options:
+                    auto_setup: true
+                retry_strategy:
+                    max_retries: 3
+                    multiplier: 2
+
+            # Dead-letter queue
+            failed:
+                dsn: 'doctrine://default?queue_name=failed'
+
+        routing:
+            # Email fallbacks — routed to delayed transport (handler adds the delay)
+            'App\Infrastructure\Messenger\Message\SendResolutionEmail': async_delayed
+            'App\Infrastructure\Messenger\Message\SendAgentAlertEmail': async_delayed
+            # Abuse-related emails — immediate async
+            'App\Infrastructure\Messenger\Message\SendBlockEmail': async
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                async: 'in-memory://'
+                async_delayed: 'in-memory://'

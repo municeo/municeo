@@ -1,0 +1,96 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ─── Static analysis + code style — parallel matrix, fail-fast ─────────────
+  quality:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          - name: PHPStan
+            run: vendor/bin/phpstan analyse --no-progress --error-format=github
+
+          - name: PHP CS Fixer
+            run: vendor/bin/php-cs-fixer fix --dry-run --diff --ansi
+
+          - name: Rector
+            run: vendor/bin/rector process --dry-run --no-progress-bar
+
+          - name: Twig CS Fixer
+            run: vendor/bin/twig-cs-fixer lint templates/ || true  # no templates yet — non-fatal
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_pgsql, gd, intl, zip, apcu
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: ${{ matrix.name }}
+        run: ${{ matrix.run }}
+
+  # ─── PHPUnit tests — runs in parallel with quality jobs ────────────────────
+  tests:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    # No `needs:` — runs at the same time as quality jobs
+
+    services:
+      postgres:
+        image: postgis/postgis:18-3.5
+        env:
+          POSTGRES_DB: municeo_test
+          POSTGRES_USER: municeo
+          POSTGRES_PASSWORD: municeo
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.5'
+          extensions: pdo_pgsql, gd, intl, zip, apcu
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: vendor
+          key: composer-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress --no-interaction
+
+      - name: Run tests
+        run: php bin/phpunit
+        env:
+          DATABASE_URL: "postgresql://municeo:municeo@localhost:5432/municeo_test?serverVersion=18&charset=utf8"

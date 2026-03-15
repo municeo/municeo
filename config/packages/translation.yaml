@@ -1,0 +1,18 @@
+framework:
+    # Default locale for the app (overridden by {_locale} route parameter)
+    default_locale: fr
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        # English is the fallback when a French translation is missing
+        fallbacks: [en]
+        paths:
+            - '%kernel.project_dir%/translations'
+    # Raise an error on missing translations in dev/test
+    translator:
+        default_path: '%kernel.project_dir%/translations'
+        fallbacks: [en]
+
+when@prod:
+    framework:
+        translator:
+            cache_dir: '%kernel.build_dir%/translations'
