@@ -1,0 +1,67 @@
+# Municeo business thresholds
+#
+# Pattern: each threshold is backed by an env var with a hardcoded default.
+#   env(VAR): 'X'           → fallback when the env var is not set
+#   %env(type:VAR)%         → actual parameter value (reads env or falls back to 'X')
+#
+# To override for a specific deployment: set the env var in .env.local or the runtime env.
+# No code change required.
+
+parameters:
+    # ── env var defaults ─────────────────────────────────────────────────────
+    # Limit on daily reports per citizen
+    env(MUNICEO_REPORT_DAILY_LIMIT):            '3'
+    # Minimum minutes between two reports from the same citizen
+    env(MUNICEO_REPORT_COOLDOWN_MINUTES):       '30'
+    # Geographic radius (metres) for duplicate detection
+    env(MUNICEO_DUPLICATE_RADIUS_METERS):       '50'
+    # Days after which a PENDING report is auto-archived
+    env(MUNICEO_ARCHIVE_AFTER_DAYS):            '30'
+    # Weighted citizen votes needed to auto-resolve a report
+    env(MUNICEO_RESOLUTION_VOTE_THRESHOLD):     '5'
+    # Wilson score above which agents receive an alert
+    env(MUNICEO_WILSON_ALERT_THRESHOLD):        '0.65'
+    # Wilson score above which report author gains trust (+2)
+    env(MUNICEO_WILSON_SCORE_POSITIVE):         '0.6'
+    # Wilson score below which report author loses trust (-1)
+    env(MUNICEO_WILSON_SCORE_NEGATIVE):         '0.3'
+    # Wilson score below which abuse count is incremented
+    env(MUNICEO_WILSON_SCORE_ABUSE):            '0.2'
+    # Trust score delta when a report is validated by an agent
+    env(MUNICEO_TRUST_DELTA_VALIDATED):         '3'
+    # Trust score delta when a report is rejected by an agent (negative)
+    env(MUNICEO_TRUST_DELTA_REJECTED):          '-4'
+    # Trust score threshold for Citoyen level
+    env(MUNICEO_TRUST_LEVEL_CITOYEN):           '5'
+    # Trust score threshold for Citoyen Engagé level
+    env(MUNICEO_TRUST_LEVEL_CITOYEN_ENGAGE):    '15'
+    # Trust score threshold for Pilier de quartier level
+    env(MUNICEO_TRUST_LEVEL_PILIER):            '30'
+    # Duration (hours) for which an abusive account is suspended
+    env(MUNICEO_ABUSE_BLOCK_DURATION_HOURS):    '72'
+    # Number of abuses before the final warning email is sent
+    env(MUNICEO_ABUSE_WARNING_THRESHOLD):       '2'
+    # Delay (minutes) before sending the resolution email fallback
+    env(MUNICEO_RESOLUTION_EMAIL_DELAY):        '5'
+    # Delay (minutes) before sending the agent alert email fallback
+    env(MUNICEO_AGENT_ALERT_EMAIL_DELAY):       '5'
+
+    # ── named parameters (injected via services.yaml bind) ───────────────────
+    municeo.report_daily_limit:              '%env(int:MUNICEO_REPORT_DAILY_LIMIT)%'
+    municeo.report_cooldown_minutes:         '%env(int:MUNICEO_REPORT_COOLDOWN_MINUTES)%'
+    municeo.duplicate_radius_meters:         '%env(int:MUNICEO_DUPLICATE_RADIUS_METERS)%'
+    municeo.archive_after_days:              '%env(int:MUNICEO_ARCHIVE_AFTER_DAYS)%'
+    municeo.resolution_vote_threshold:       '%env(int:MUNICEO_RESOLUTION_VOTE_THRESHOLD)%'
+    municeo.wilson_alert_threshold:          '%env(float:MUNICEO_WILSON_ALERT_THRESHOLD)%'
+    municeo.wilson_score_positive_threshold: '%env(float:MUNICEO_WILSON_SCORE_POSITIVE)%'
+    municeo.wilson_score_negative_threshold: '%env(float:MUNICEO_WILSON_SCORE_NEGATIVE)%'
+    municeo.wilson_score_abuse_threshold:    '%env(float:MUNICEO_WILSON_SCORE_ABUSE)%'
+    municeo.trust_score_delta_validated:     '%env(int:MUNICEO_TRUST_DELTA_VALIDATED)%'
+    municeo.trust_score_delta_rejected:      '%env(int:MUNICEO_TRUST_DELTA_REJECTED)%'
+    municeo.trust_score_level_citoyen:       '%env(int:MUNICEO_TRUST_LEVEL_CITOYEN)%'
+    municeo.trust_score_level_citoyen_engage: '%env(int:MUNICEO_TRUST_LEVEL_CITOYEN_ENGAGE)%'
+    municeo.trust_score_level_pilier:        '%env(int:MUNICEO_TRUST_LEVEL_PILIER)%'
+    municeo.abuse_block_duration_hours:      '%env(int:MUNICEO_ABUSE_BLOCK_DURATION_HOURS)%'
+    municeo.abuse_warning_threshold:         '%env(int:MUNICEO_ABUSE_WARNING_THRESHOLD)%'
+    municeo.resolution_email_delay_minutes:  '%env(int:MUNICEO_RESOLUTION_EMAIL_DELAY)%'
+    municeo.agent_alert_email_delay_minutes: '%env(int:MUNICEO_AGENT_ALERT_EMAIL_DELAY)%'

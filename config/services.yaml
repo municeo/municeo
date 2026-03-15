@@ -1,0 +1,33 @@
+# Services — no business parameters here; see config/packages/municeo.yaml
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        # Inject municeo.* parameters by name (e.g. $reportDailyLimit → municeo.report_daily_limit)
+        bind:
+            int $reportDailyLimit:         '%municeo.report_daily_limit%'
+            int $reportCooldownMinutes:    '%municeo.report_cooldown_minutes%'
+            int $duplicateRadiusMeters:    '%municeo.duplicate_radius_meters%'
+            int $archiveAfterDays:         '%municeo.archive_after_days%'
+            int $resolutionVoteThreshold:  '%municeo.resolution_vote_threshold%'
+            float $wilsonAlertThreshold:       '%municeo.wilson_alert_threshold%'
+            float $wilsonScorePositiveThreshold: '%municeo.wilson_score_positive_threshold%'
+            float $wilsonScoreNegativeThreshold: '%municeo.wilson_score_negative_threshold%'
+            float $wilsonScoreAbuseThreshold:    '%municeo.wilson_score_abuse_threshold%'
+            int $trustScoreDeltaValidated: '%municeo.trust_score_delta_validated%'
+            int $trustScoreDeltaRejected:  '%municeo.trust_score_delta_rejected%'
+            int $trustScoreLevelCitoyen:       '%municeo.trust_score_level_citoyen%'
+            int $trustScoreLevelCitoyenEngage: '%municeo.trust_score_level_citoyen_engage%'
+            int $trustScoreLevelPilier:        '%municeo.trust_score_level_pilier%'
+            int $abuseBlockDurationHours:  '%municeo.abuse_block_duration_hours%'
+            int $abuseWarningThreshold:    '%municeo.abuse_warning_threshold%'
+            int $resolutionEmailDelayMinutes:  '%municeo.resolution_email_delay_minutes%'
+            int $agentAlertEmailDelayMinutes:  '%municeo.agent_alert_email_delay_minutes%'
+
+    # Auto-wire everything in src/ EXCEPT the Domain layer
+    # Domain is pure PHP — no container coupling, ever.
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/Domain/'
+            - '../src/Kernel.php'

@@ -1,0 +1,11 @@
+framework:
+    asset_mapper:
+        # Directories scanned for importmap assets
+        paths:
+            - assets/
+        missing_import_mode: error
+
+when@prod:
+    framework:
+        asset_mapper:
+            missing_import_mode: error

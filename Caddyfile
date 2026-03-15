@@ -1,0 +1,33 @@
+{
+	# FrankenPHP global options
+	frankenphp
+
+	# Order PHP processing before static file serving
+	order php_server before file_server
+}
+
+# Hostname — override via SERVER_NAME env var (default: listen on port 80)
+{$SERVER_NAME:localhost} {
+	root * /app/public
+
+	# Compression
+	encode zstd br gzip
+
+	# Mercure hub (built into FrankenPHP — no separate container needed)
+	mercure {
+		transport_url {$MERCURE_TRANSPORT_URL:bolt:///data/mercure.db}
+		publisher_jwt {$MERCURE_JWT_SECRET}
+		subscriber_jwt {$MERCURE_JWT_SECRET}
+		# Allow anonymous subscriptions (access control handled in app)
+		anonymous
+		subscriptions
+	}
+
+	# Vulcain (HTTP/2 server push)
+	vulcain
+
+	# PHP worker — keeps the Symfony kernel loaded between requests
+	php_server {
+		worker /app/public/index.php
+	}
+}

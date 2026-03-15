@@ -1,0 +1,11 @@
+controllers:
+    resource:
+        path: ../src/Infrastructure/Http/Controller/
+        namespace: App\Infrastructure\Http\Controller
+    type: attribute
+    # All routes are locale-prefixed: /fr/..., /en/...
+    prefix: '/{_locale}'
+    requirements:
+        _locale: 'fr|en'
+    defaults:
+        _locale: fr

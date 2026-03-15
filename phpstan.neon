@@ -1,0 +1,30 @@
+includes:
+    - vendor/phpstan/extension-installer/loader.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - src
+        - tests
+
+    # Symfony extension: points at compiled DI container for service type inference
+    symfony:
+        containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+        consoleApplicationLoader: tests/console-application.php
+
+    # Doctrine extension: entity manager loader
+    doctrine:
+        objectManagerLoader: tests/object-manager.php
+
+    # Strict checks
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+    reportUnmatchedIgnoredErrors: true
+
+    # Exclude generated / third-party code
+    excludePaths:
+        - var/
+        - vendor/
+
+    ignoreErrors: []
