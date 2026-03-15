@@ -1,4 +1,12 @@
-# Municeo — Spécifications complètes
+---
+title: "Municeo - Spécifications"
+version: "1.1"
+date: "2026-03-15"
+author: "Franck Matsos"
+repository: "github.com/municeo/municeo"
+---
+
+# Municeo — Spécifications
 
 **Version** : 1.1  
 **Date** : Mars 2026  
